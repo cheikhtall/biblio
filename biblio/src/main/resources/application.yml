@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/biblio
+    username: postgres
+    password: toor
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/biblio
+          jwk-set-uri: http://localhost:8080/realms/biblio/protocol/openid-connect/certs
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+jwt:
+  auth:
+    converter:
+      resource-id: biblio-client
+      principal-attribute: preferred_username
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+server:
+  port: '8081'
+
+keycloak:
+  realm: biblio
+  resource: biblio-client
+  auth-server-url: http://localhost:8080
+  use-resource-role-mappings: true
+  ssl-required: external
+  bearer-only: true
+  clientId: ${keycloak.resource}
+  password: passer123
+  username: admin
